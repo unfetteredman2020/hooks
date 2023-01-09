@@ -4,39 +4,46 @@
  * @LastEditors: unfetteredman
  * @LastEditTime: 2022-12-09 11:14:09
  */
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
-let timer:any = null;
+let timer: any = null;
 
-function UseCountDown({ millisecond }: TimeDown) {
-  const [deadline, setDeadLine] = useState<number>(0);
-  const [countDown, setCountDown] = useState<TimeDownReturnProps>({
-    day: 0,
-    hour: 0,
-    minute: 0,
-    second: 0
-  })
+function UseCountDown({ millisecond, callBack }: TimeDown) {
+  const [millisec, setMillisec] = useState<number>();
+  const [countDown, setCountDown] = useState<Remains>({ day: 0, hour: 0, minute: 0, second: 0 });
   useEffect(() => {
+    console.log('first');
     if (timer) clearInterval(timer);
-    setDeadLine(millisecond)
+    millisecond && setMillisec(millisecond);
   }, [millisecond]);
-  
+
   useEffect(() => {
-    console.log('deadline :>> ', deadline);
-    timer = setInterval(() => setDeadLine(pre => pre - 1000), 1000);
-    setCountDown({
-      day: Math.floor(deadline / (1000 * 60 * 60 * 24)),
-      hour: Math.floor((deadline / (1000 * 60 * 60)) % 24),
-      minute: Math.floor((deadline / (1000 * 60)) % 60),
-      second: Math.round((deadline / 1000) % 60),
-    })
+    if ((millisec && millisec > 0)) {
+      timer = setInterval(() => {
+        if (millisec) {
+          const sec = millisec;
+          setMillisec(sec - 1000)
+          setCountDown( () => ({
+            day: Math.floor(millisec / (1000 * 60 * 60 * 24)),
+            hour: Math.floor((millisec / (1000 * 60 * 60)) % 24),
+            minute: Math.floor((millisec / (1000 * 60)) % 60),
+            second: Math.round((millisec / 1000) % 60)
+          }));
+        } else {
 
-    if (deadline === 0) clearInterval(timer)
+        }
+      }, 1000);
+    }
+
+    if (millisec && (millisec <= 0)) {
+      clearInterval(timer)
+      callBack && callBack();
+    };
     return () => clearInterval(timer);
-  }, [deadline])
+  }, [callBack, millisec, millisecond]);
 
-  console.log('countDown', deadline);
-  return countDown
+  console.log('countDown', millisec);
+  return countDown;
 }
 
 export default UseCountDown;

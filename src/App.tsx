@@ -2,7 +2,7 @@
  * @Author: unfetteredman
  * @Date: 2022-12-08 15:21:20
  * @LastEditors: unfetteredman
- * @LastEditTime: 2022-12-09 13:19:54
+ * @LastEditTime: 2023-01-09 11:13:46
  */
 import React from 'react';
 // import moment from 'moment';
@@ -40,7 +40,7 @@ export default App;
 
 
 const UseCountdownChild = () => {
-  const { day, hour, minute, second } = useCountdown({ millisecond: 5 * 1000});
+  const { day, hour, minute, second } = useCountdown({ millisecond: 1 * 1000 * 60 * 60});
   return <div>
     <span>day: {day};</span>
     <span>hour: {hour};</span>
