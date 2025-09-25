@@ -18,10 +18,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "desktop-kit/*": ["desktop-kit/*"]
+    }
   },
   "include": [
     "src",
-    "src/@types"
+    "src/@types",
+    "desktop-kit"
   ]
 }
