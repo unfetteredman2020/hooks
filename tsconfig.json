@@ -18,10 +18,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "desktop-kit/*": ["node_modules/desktop-kit/*"],
+      "desktop-kit/components/*": ["node_modules/desktop-kit/components/*"]
+    }
   },
   "include": [
     "src",
+    "src/@types"
+  ],
+  "typeRoots": [
+    "node_modules/@types",
     "src/@types"
   ]
 }
