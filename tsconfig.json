@@ -18,7 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "desktop-kit/components/clipboard-text": ["node_modules/desktop-kit/components/clipboard-text/index.js"],
+      "desktop-kit/components/*": ["node_modules/desktop-kit/components/*/index.js"]
+    }
   },
   "include": [
     "src",
