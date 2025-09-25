@@ -1,51 +1,71 @@
-/*
- * @Author: unfetteredman
- * @Date: 2022-12-08 15:21:20
- * @LastEditors: unfetteredman
- * @LastEditTime: 2023-01-09 11:13:46
- */
-import React from 'react';
-// import moment from 'moment';
-// import useTimeDown from './hook/useTimeDownHooks/useTimeDown'
-
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import Quill from './components/Quill';
 import './App.css';
-import useCountdown from './hook/useCountDownHooks/useCountDown';
 
+// Create a mock axios instance for testing
+const axiosInstance = axios.create({
+  baseURL: 'https://api.example.com',
+});
 
 function App() {
-  // const deadline = useMemo(
-  //   () =>
-  //     moment()
-  //       // 设置时间
-  //       .add(8, 's')
-  //       .add(7, 'm')
-  //       .add(6, 'h')
-  //       .add(5, 'd')
-  //       .format('YYYY-MM-DD HH:mm:ss'),
-  //   [],
-  // );
-  // const { day, hour, minute, second } = useTimeDown({
-  //   deadline,
-  // });
-  return <div>
-    {/* <span>day: {day};</span>
-    <span>hour: {hour};</span>
-    <span>minute: {minute};</span>
-    <span>second: {second};</span> */}
-  <UseCountdownChild />
-  </div>
+  const [content, setContent] = useState<string | undefined>('');
+  const editorRef = useRef<any>(null);
+
+  const handleChange = (value?: string) => {
+    setContent(value);
+    console.log('Editor content changed:', value);
+  };
+
+  const handleGetContent = () => {
+    if (editorRef.current) {
+      console.log('HTML:', editorRef.current.getHtml());
+      console.log('Text:', editorRef.current.getText());
+    }
+  };
+
+  const handleClear = () => {
+    if (editorRef.current) {
+      editorRef.current.clear();
+    }
+  };
+
+  return (
+    <div className="App" style={{ padding: '20px' }}>
+      <h1>WangEditor Test</h1>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <button onClick={handleGetContent} style={{ marginRight: '10px' }}>
+          Get Content
+        </button>
+        <button onClick={handleClear}>
+          Clear Editor
+        </button>
+      </div>
+
+      <Quill
+        ref={editorRef}
+        request={axiosInstance}
+        uploadUrl="/upload"
+        value={content}
+        onChange={handleChange}
+        showToolbar={true}
+      />
+
+      <div style={{ marginTop: '20px' }}>
+        <h3>Preview:</h3>
+        <div 
+          style={{ 
+            border: '1px solid #ccc', 
+            padding: '10px', 
+            minHeight: '100px',
+            backgroundColor: '#f5f5f5'
+          }}
+          dangerouslySetInnerHTML={{ __html: content || '<p>No content yet...</p>' }}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default App;
-
-
-const UseCountdownChild = () => {
-  const { day, hour, minute, second } = useCountdown({ millisecond: 1 * 1000 * 60 * 60});
-  return <div>
-    <span>day: {day};</span>
-    <span>hour: {hour};</span>
-    <span>minute: {minute};</span>
-    <span>second: {second};</span>
-
-  </div>
-}
