@@ -10,6 +10,7 @@ import React from 'react';
 
 import './App.css';
 import useCountdown from './hook/useCountDownHooks/useCountDown';
+import EditorTest from './components/editor/EditorTest';
 
 
 function App() {
@@ -33,6 +34,8 @@ function App() {
     <span>minute: {minute};</span>
     <span>second: {second};</span> */}
   <UseCountdownChild />
+  <hr style={{ margin: '20px 0' }} />
+  <EditorTest />
   </div>
 }
 
