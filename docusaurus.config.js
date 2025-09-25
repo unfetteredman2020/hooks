@@ -103,4 +103,34 @@ module.exports = {
       },
     ],
   ],
+
+  // 添加自定义插件
+  plugins: [
+    // 方法 1: 使用外部插件文件
+    './plugins/webpack-plugin',
+    
+    // 方法 2: 使用高级插件（带选项）
+    ['./plugins/advanced-webpack-plugin', {
+      // 插件选项
+      enableAnalyzer: false,
+    }],
+    
+    // 方法 3: 内联插件定义
+    function myInlinePlugin(context, options) {
+      return {
+        name: 'inline-webpack-plugin',
+        configureWebpack(config, isServer) {
+          const webpack = require('webpack');
+          return {
+            plugins: [
+              new webpack.BannerPlugin({
+                banner: 'Desktop Kit - Built with Docusaurus',
+                entryOnly: true,
+              }),
+            ],
+          };
+        },
+      };
+    },
+  ],
 };
