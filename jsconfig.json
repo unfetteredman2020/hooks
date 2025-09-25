@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "desktop-kit/components/*": ["node_modules/desktop-kit/components/*/index.js"]
+    }
+  }
+}
