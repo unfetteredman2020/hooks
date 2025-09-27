@@ -10,6 +10,8 @@ import React from 'react';
 
 import './App.css';
 import useCountdown from './hook/useCountDownHooks/useCountDown';
+import DynamicImportExample from './examples/DynamicImportExample';
+import DynamicImportTest from './test/DynamicImportTest';
 
 
 function App() {
@@ -33,6 +35,10 @@ function App() {
     <span>minute: {minute};</span>
     <span>second: {second};</span> */}
   <UseCountdownChild />
+  <hr style={{ margin: '40px 0' }} />
+  <DynamicImportTest />
+  <hr style={{ margin: '40px 0' }} />
+  <DynamicImportExample />
   </div>
 }
 
