@@ -10,6 +10,7 @@ import React from 'react';
 
 import './App.css';
 import useCountdown from './hook/useCountDownHooks/useCountDown';
+import Primary from './components/Primary';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
     <span>minute: {minute};</span>
     <span>second: {second};</span> */}
   <UseCountdownChild />
+  <Primary />
   </div>
 }
 
