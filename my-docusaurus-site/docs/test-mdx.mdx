@@ -1,0 +1,65 @@
+---
+sidebar_position: 2
+---
+
+# 测试 MDX 文档
+
+这是一个测试 MDX 文档，用于验证扁平化构建功能。
+
+## MDX 功能测试
+
+### 1. React 组件
+
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight> 和 <Highlight color="#1877F2">Facebook blue</Highlight> 是我最喜欢的颜色。
+
+### 2. 代码块
+
+```jsx
+function HelloDocusaurus() {
+  return <h1>Hello, Docusaurus!</h1>;
+}
+```
+
+### 3. 表格
+
+| 功能 | 支持情况 |
+|------|---------|
+| MDX 组件 | ✅ |
+| 代码高亮 | ✅ |
+| 表格 | ✅ |
+| 图片 | ✅ |
+
+### 4. 链接测试
+
+- [回到首页](/)
+- [介绍文档](./intro)
+- [教程基础](./tutorial-basics/create-a-page)
+- [外部链接](https://docusaurus.io)
+
+### 5. 图片测试
+
+![Docusaurus logo](/img/docusaurus.png)
+
+## 总结
+
+这个 MDX 文档展示了各种功能，包括：
+
+1. React 组件内嵌
+2. 语法高亮的代码块
+3. Markdown 表格
+4. 内部和外部链接
+5. 图片引用
+
+所有这些功能在扁平化构建后都应该正常工作。
