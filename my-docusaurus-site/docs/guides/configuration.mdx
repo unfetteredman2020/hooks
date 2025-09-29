@@ -1,0 +1,66 @@
+---
+title: Configuration
+description: Learn how to configure the application
+---
+
+# Configuration
+
+This guide covers all configuration options available in our application.
+
+## Environment Variables
+
+Set the following environment variables:
+
+```bash
+API_KEY=your-api-key
+DATABASE_URL=postgresql://localhost:5432/mydb
+DEBUG=false
+```
+
+## Configuration File
+
+Create a `config.json` file in your project root:
+
+```json
+{
+  "api": {
+    "baseUrl": "https://api.example.com",
+    "timeout": 5000
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "mydb"
+  }
+}
+```
+
+## Advanced Settings
+
+### Caching
+
+Configure caching behavior:
+
+```javascript
+const config = {
+  cache: {
+    enabled: true,
+    ttl: 3600, // 1 hour
+    maxSize: 1000
+  }
+};
+```
+
+### Logging
+
+Set up logging levels:
+
+```javascript
+const config = {
+  logging: {
+    level: 'info',
+    format: 'json',
+    output: 'console'
+  }
+};
+```
