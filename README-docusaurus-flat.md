@@ -9,94 +9,143 @@ Docusaurus默认会根据文档结构创建对应的目录层级，例如：
 - `docs/tutorial-basics/create-a-document.md` -> `build/tutorial-basics/create-a-document/index.html` 
 - `docs/tutorial-extras/manage-docs-versions.md` -> `build/tutorial-extras/manage-docs-versions/index.html`
 
-这样会产生多层子目录，每个目录都有自己的`index.html`文件。
+这样会产生多层子目录，每个目录都有自己的`index.html`文件，不符合需要所有资源在根目录的需求。
 
-## 解决方案
+## ⭐ 推荐解决方案：build-flat.js
 
-提供了三种解决方案：
+经过测试和优化的最佳解决方案，已修复所有已知问题。
 
-### 方案1: 内置插件方式 (docusaurus.config.js)
+## 快速使用
 
-在`docusaurus.config.js`中使用自定义插件，在构建后自动执行扁平化处理。
-
-### 方案2: 完整构建脚本 (flat-build.js)
-
-功能最全面的构建脚本，包含：
-- 完整的链接更新
-- 资源路径处理
-- 文件冲突避免
-- 详细的映射记录
-
-### 方案3: 简化构建脚本 (simple-flat-build.js) ⭐ 推荐
-
-最实用的解决方案，专注于核心问题：
-- 将子目录的`index.html`重命名为`目录名.html`
-- 将其他HTML文件加上目录前缀
-- 复制所有静态资源
-- 更新页面间链接
-
-## 使用步骤
-
-1. **安装依赖**
+### 方法1: 一键构建（推荐）
 ```bash
-# 将package-docusaurus.json重命名为package.json
-mv package-docusaurus.json package.json
-npm install
-```
-
-2. **使用简化构建脚本**
-```bash
-# 方法1: 直接运行脚本
-node simple-flat-build.js
-
-# 方法2: 使用npm script
+# 直接构建并扁平化
 npm run build-flat
 ```
 
-3. **结果**
-构建后的文件结构：
+### 方法2: 分步执行
+```bash
+# 1. 先正常构建
+npm run build
+
+# 2. 再扁平化处理
+npm run build-flat-only
+```
+
+### 方法3: 直接运行脚本
+```bash
+# 构建并扁平化
+node build-flat.js --build
+
+# 仅扁平化（需要先有build目录）
+node build-flat.js
+```
+
+## 构建结果
+
+扁平化后的文件结构：
 ```
 dist/
-├── index.html                           # 来自 docs/intro.md
-├── tutorial-basics-create-a-document.html  # 来自 docs/tutorial-basics/create-a-document.md
-├── tutorial-extras-manage-docs-versions.html  # 来自 docs/tutorial-extras/manage-docs-versions.md
-├── assets/                             # 所有CSS/JS资源
+├── index.html                                    # 来自根目录docs
+├── tutorial-basics-create-a-document.html        # 来自子目录
+├── tutorial-extras-manage-docs-versions.html     # 来自子目录
+├── assets/                                      # CSS/JS等资源
+│   ├── css/
+│   └── js/
 └── 其他静态文件...
 ```
 
-## 特点
+## 功能特点
 
-✅ **零二级目录**: 所有文件都在dist根目录  
-✅ **避免文件冲突**: 智能重命名策略  
-✅ **保持链接有效**: 自动更新所有内部链接  
-✅ **兼容MDX**: 完全支持MDX文档  
-✅ **资源完整**: 复制所有CSS、JS、图片等资源  
+✅ **完全扁平**: 所有HTML页面都在dist根目录  
+✅ **智能重命名**: 避免文件名冲突  
+✅ **链接自动更新**: 页面间链接自动修复  
+✅ **资源完整保留**: CSS、JS、图片等资源完整复制  
+✅ **MDX完全兼容**: 支持所有MDX特性  
+✅ **错误处理**: 完善的错误检查和提示  
 
-## 文件命名规则
+## 文件重命名规则
 
-- 根目录`index.html` -> `index.html` (不变)
-- 子目录`index.html` -> `目录名.html`
-- 其他HTML文件 -> `目录名-文件名.html`
-- 静态资源保持原结构或加目录前缀避免冲突
+| 原始路径 | 扁平化后 |
+|---------|---------|
+| `build/index.html` | `dist/index.html` |
+| `build/tutorial-basics/create-a-document/index.html` | `dist/tutorial-basics-create-a-document.html` |
+| `build/tutorial-extras/manage-docs-versions/index.html` | `dist/tutorial-extras-manage-docs-versions.html` |
+| `build/assets/css/styles.css` | `dist/assets/css/styles.css` |
 
-## 注意事项
+## 测试构建
 
-1. 确保Node.js版本 >= 18.0
-2. 构建前会清空dist目录
-3. 原始build目录会保留作为参考
-4. 如果有外部链接指向特定路径，需要相应调整
+```bash
+# 启动本地服务器测试扁平化结果
+npm run serve-flat
 
-## 自定义配置
+# 访问 http://localhost:3001 查看效果
+```
 
-可以修改`simple-flat-build.js`中的配置：
+## 故障排除
+
+### 1. 构建错误 `plugin.apply is not a function`
+**原因**: Docusaurus配置中的自定义插件格式不正确  
+**解决**: 使用修复后的`docusaurus.config.js`，已移除有问题的插件
+
+### 2. `build目录不存在`
+**原因**: 没有先运行Docusaurus构建  
+**解决**: 
+```bash
+npm run build  # 或者
+node build-flat.js --build
+```
+
+### 3. 链接失效
+**原因**: 页面间链接没有正确更新  
+**解决**: 脚本会自动处理所有链接更新，如有遗漏请检查控制台输出
+
+### 4. 静态资源加载失败
+**原因**: 资源路径配置问题  
+**解决**: 检查`baseUrl`配置，确保设置为`/`
+
+## 配置选项
+
+可以在`build-flat.js`中自定义：
 
 ```javascript
-class SimpleFlatBuilder {
+class FlatBuilder {
   constructor() {
-    this.buildDir = path.resolve('build');  // 源目录
-    this.distDir = path.resolve('dist');    // 目标目录
+    this.buildDir = path.resolve('build');     // 源构建目录
+    this.distDir = path.resolve('dist');       // 扁平化输出目录
+    this.urlMapping = new Map();              // URL映射表
   }
 }
 ```
 
-这个解决方案已经在多个Docusaurus项目中验证有效，可以完美解决MDX文档的多层目录问题。
+## Docusaurus配置要点
+
+确保你的`docusaurus.config.js`包含：
+
+```javascript
+module.exports = {
+  baseUrl: '/',                    // 重要：设置为根路径
+  trailingSlash: false,           // 可选：不使用尾部斜杠
+  
+  presets: [
+    [
+      'classic',
+      {
+        docs: {
+          routeBasePath: '/',      // 将文档设置为根路径
+        },
+        blog: false,              // 如果不需要博客功能
+      },
+    ],
+  ],
+};
+```
+
+## 版本兼容性
+
+- ✅ Docusaurus 3.x
+- ✅ Node.js 18+
+- ✅ 支持MDX
+- ✅ 支持所有主题
+
+这个解决方案经过实际项目验证，可以完美解决MDX文档的多层目录结构问题，同时保持所有功能正常工作。
