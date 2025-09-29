@@ -1,0 +1,70 @@
+---
+sidebar_position: 1
+---
+
+# 深层嵌套的 MDX 文档
+
+这是一个位于深层目录结构中的 MDX 文档。
+
+## 测试深层目录的链接
+
+### 相对链接测试
+
+- [返回上一级](/nested)
+- [返回文档根目录](../../)
+- [链接到首页](/)
+- [链接到测试 MDX](../../test-mdx)
+
+### 资源引用测试
+
+这里是一个来自根目录的图片：
+
+![Docusaurus Mountain](/img/undraw_docusaurus_mountain.svg)
+
+### 代码示例
+
+```typescript
+interface FlattenBuildConfig {
+  // 是否启用扁平化构建
+  enabled: boolean;
+  // 输出目录
+  outputDir: string;
+  // 是否保留原始路径结构
+  preserveStructure: boolean;
+}
+
+export function configureFlattenBuild(config: FlattenBuildConfig): void {
+  console.log('配置扁平化构建:', config);
+}
+```
+
+## 组件测试
+
+export const Card = ({title, children}) => (
+  <div style={{
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    padding: '16px',
+    marginBottom: '16px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+  }}>
+    <h3 style={{marginTop: 0}}>{title}</h3>
+    {children}
+  </div>
+);
+
+<Card title="深层嵌套页面">
+  这是一个在深层目录结构中的页面。扁平化构建后，它将被移动到根目录，
+  文件名会变成类似 `nested-deep-nested-test-deep.html` 的形式。
+</Card>
+
+## 验证要点
+
+1. **路径转换**：原路径 `/docs/nested/deep-nested/test-deep` 
+2. **新文件名**：`docs-nested-deep-nested-test-deep.html`
+3. **链接更新**：所有相对链接应该被正确更新
+4. **资源路径**：CSS、JS、图片等资源路径应该正确指向根目录
+
+---
+
+这个页面用于测试深层嵌套目录结构在扁平化后是否能正常工作。
