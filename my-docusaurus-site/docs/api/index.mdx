@@ -1,0 +1,38 @@
+---
+title: API Documentation
+description: Complete API reference for our service
+---
+
+# API Documentation
+
+This is the main API documentation page.
+
+## Overview
+
+Our API provides a comprehensive set of endpoints for managing your data.
+
+## Authentication
+
+All API requests require authentication using an API key.
+
+```javascript
+const response = await fetch('/api/data', {
+  headers: {
+    'Authorization': 'Bearer your-api-key'
+  }
+});
+```
+
+## Endpoints
+
+### GET /api/users
+Retrieve a list of users.
+
+### POST /api/users
+Create a new user.
+
+### PUT /api/users/:id
+Update an existing user.
+
+### DELETE /api/users/:id
+Delete a user.
